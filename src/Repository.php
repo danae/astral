@@ -211,7 +211,7 @@ class Repository
     $currentSchema = $currentSchemaManager->createSchema();
 
     $comparator = new Comparator();
-    $diff = $comparator->compare($currentSchema, $schema);
+    $diff = $comparator->compareSchemas($currentSchema, $schema);
     $queries = $diff->toSaveSql($this->database->getConnection()->getDatabasePlatform());
 
     // Execute the queries
