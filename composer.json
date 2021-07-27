@@ -1,0 +1,21 @@
+{
+  "name": "danae/astral",
+  "description": "Database abstraction layer with object repository support for PHP 7.4+, built on Doctrine DBAL",
+  "type": "library",
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Danae Dekker",
+      "email": "info@danaedekker.com"
+    }
+  ],
+  "require": {
+    "php": "^7.4",
+    "doctrine/dbal": "^4.0-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Danae\\Astral\\": "src/"
+    }
+  }
+}
