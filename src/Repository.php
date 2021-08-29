@@ -23,6 +23,12 @@ class Repository
   // Key for the accessor in field options
   public const OPTIONS_ACCESSOR = 'accessor';
 
+  // Key for the normalize mapper in field options
+  public const OPTIONS_NORMALIZE_MAPPER = 'normalize_mapper';
+
+  // Key for the denormalize mapper in field options
+  public const OPTIONS_DENORMALIZE_MAPPER = 'denormalize_mapper';
+
 
   // The database of this repository
   private $database;
@@ -137,10 +143,16 @@ class Repository
     {
       // Get the options
       $options = $this->fields[$key];
-      $accessor = $options[self::OPTIONS_ACCESSOR] ?? $key;
+      $accessor = $options['options'][self::OPTIONS_ACCESSOR] ?? $key;
 
       // Get the value from the object
-      $data[$key] =  $this->propertyAccessor->getValue($object, $accessor);
+      $value = $this->propertyAccessor->getValue($object, $accessor);;
+
+      $normalizeMapper = $options['options'][self::OPTIONS_NORMALIZE_MAPPER] ?? null;
+      if ($normalizeMapper !== null)
+        $value = call_user_func($normalizerMapper, $value);
+
+      $data[$key] = $value;
     }
     return $data;
   }
@@ -168,10 +180,16 @@ class Repository
 
       // Get the options
       $options = $this->fields[$key];
-      $accessor = $options[self::OPTIONS_ACCESSOR] ?? $key;
+      $accessor = $options['options'][self::OPTIONS_ACCESSOR] ?? $key;
 
       // Set the value to the object
-      $this->propertyAccessor->setValue($object, $accessor, $data[$key]);
+      $value = $data['key'];
+
+      $denormalizeMapper = $options['options'][self::OPTIONS_DENORMALIZE_MAPPER] ?? null;
+      if ($denormalizeMapper !== null)
+        $value = call_user_func($denormalizeMapper, $value);
+
+      $this->propertyAccessor->setValue($object, $accessor, $value);
     }
     return $object;
   }
