@@ -183,7 +183,7 @@ class Repository
       $accessor = $options['options'][self::OPTIONS_ACCESSOR] ?? $key;
 
       // Set the value to the object
-      $value = $data['key'];
+      $value = $data[$key];
 
       $denormalizeMapper = $options['options'][self::OPTIONS_DENORMALIZE_MAPPER] ?? null;
       if ($denormalizeMapper !== null)
